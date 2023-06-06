@@ -6,13 +6,33 @@ class Home extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final counter = useState(0);
+    final doubleCounter = useState(0);
+
+    useValueChanged<int, void>(counter.value, (oldVal, oldResult) {
+      doubleCounter.value = counter.value * 2;
+    });
+
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const <Widget>[
+      children: <Widget>[
         Text(
-          'You have pushed the button this many times:',
+          counter.value.toString(),
+          style: const TextStyle(fontSize: 16),
         ),
+        Text(
+          doubleCounter.value.toString(),
+          style: const TextStyle(fontSize: 16),
+        ),
+        TextButton(
+            onPressed: () {
+              counter.value++;
+            },
+            child: const Text(
+              "Click me",
+              style: TextStyle(fontSize: 16),
+            ))
       ],
     ));
   }
